@@ -4,7 +4,6 @@ const initialState = {
   todos: [],
   isError: false,
   isSuccess: false,
-  isLoading: false,
   message: "",
 };
 
@@ -73,46 +72,29 @@ export const todoSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createTodo.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(createTodo.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.isSuccess = true;
         state.todos.push(action.payload);
       })
       .addCase(createTodo.rejected, (state, action) => {
-        state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-
-      .addCase(getTodos.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(getTodos.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.isSuccess = true;
         state.todos = action.payload;
       })
       .addCase(getTodos.rejected, (state, action) => {
-        state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-
-      .addCase(deleteTodo.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(deleteTodo.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.isSuccess = true;
         state.todos = state.todos.filter(
           (todo) => todo._id !== action.payload.id
         );
       })
       .addCase(deleteTodo.rejected, (state, action) => {
-        state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       });
